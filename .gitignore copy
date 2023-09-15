@@ -1,3 +1,16 @@
+# Setting File
+
+# c_suite_be/settings.py
+
+# */c_suite_be/settings.py
+# c_suite_be/c_suite_be/settings.py
+
+# */migrations/
+*/migrations/*.py
+*.pyc 
+
+.vscode/
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
