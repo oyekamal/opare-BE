@@ -37,8 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
-    
+    #app
+    "activity",
+    "creator",
     
     # packages
     "rest_framework",
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'dj_rest_auth.registration',
+    "django_q",
 ]
 
 MIDDLEWARE = [
@@ -128,7 +130,22 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+Q_CLUSTER = {
+    "name": "pdm",
+    "workers": 2,
+    "recycle": 500,
+    "timeout": 120,
+    "retry": 240,
+    "compress": True,
+    "save_limit": 250,
+    "queue_limit": 500,
+    "cpu_affinity": 1,
+    "label": "Django Q",
+    "daemonize_workers": False,
+    "orm": "default",
+    "ack_failures": True,  # Add this line
+    "attempt_count": 1,  # Add this line
+}
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
