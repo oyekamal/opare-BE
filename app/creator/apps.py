@@ -6,4 +6,4 @@ class CreatorConfig(AppConfig):
     name = 'creator'
 
     def ready(self):
-        import creator.signals
+        pass
