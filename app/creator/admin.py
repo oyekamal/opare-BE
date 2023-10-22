@@ -27,7 +27,6 @@ class CreatorQuestionAdmin(admin.ModelAdmin):
 class CreatorQuestionGroupingAdmin(admin.ModelAdmin):
     list_display = ('id', 'short_name', 'created_at', 'updated_at')
     list_filter = ('created_at', 'updated_at')
-    raw_id_fields = ('question',)
     date_hierarchy = 'created_at'
 
 

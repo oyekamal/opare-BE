@@ -11,6 +11,7 @@ class CreatorQuestionGroupingSerializer(serializers.ModelSerializer):
     class Meta:
         model = CreatorQuestionGrouping
         fields = '__all__'
+        depth = 1
 
 
 class CreatorRequestSerializer(serializers.ModelSerializer):
