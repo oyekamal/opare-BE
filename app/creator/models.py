@@ -124,10 +124,11 @@ class CreatorQuestion(models.Model):
         fields = [f for f in self._meta.fields if isinstance(
             f, (models.TextField))]
         for field in fields:
-            value = getattr(self, field.name)
-            if '<variable>' not in value:  # Check if '<variable>' is in value
-                # Update the field value and append '<variable>'
-                setattr(self, field.name, value + '<variable>')
+            if field.attname == 'question_label':
+                value = getattr(self, field.name)
+                if '<variable>' not in value:  # Check if '<variable>' is in value
+                    # Update the field value and append '<variable>'
+                    setattr(self, field.name, value + '<variable>')
         super().save(*args, **kwargs)
 
 
