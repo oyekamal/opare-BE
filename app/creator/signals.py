@@ -8,9 +8,6 @@ from activity.ai_functions import activity_generate
 from activity.models import Activity
 
 
-def replace_variable(questionLable: str, query) -> str:
-    return questionLable.replace('<variable>', str(query)) + " \n"
-
 def call_back(task):
     
     print("Activity created..!")

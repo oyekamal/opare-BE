@@ -8,7 +8,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
 from rest_framework.response import Response
 from rest_framework import status
-
+from .core_login import create_consolidated_question
 
 class CreatorQuestionViewSet(viewsets.ModelViewSet):
     queryset = CreatorQuestion.objects.all()
@@ -31,8 +31,8 @@ class CreatorOutputViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         data = request.data  # Assuming the data is sent in the request body
+        valid_data = []
 
-        # Loop through the question data and create CreatorOutput instances
         for question_data in data['question']:
             creator_output_data = {
                 'content': question_data['content'],
@@ -41,12 +41,25 @@ class CreatorOutputViewSet(viewsets.ModelViewSet):
             }
             serializer = CreatorOutputSerializer(data=creator_output_data)
             if serializer.is_valid():
-                serializer.save()
+                valid_data.append(serializer)
             else:
-                return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        saved_ids = []
+
+        # Save all the valid data
+        for serializer in valid_data:
+            serializer.save()
+            saved_ids.append(serializer.instance.id)
+
+        # Update the 'data' with saved IDs
+        for i, question_data in enumerate(data['question']):
+            question_data['creator_output_id'] = saved_ids[i]
+
+        # Now, create the consolidated question
+        create_consolidated_question(data['question'])
 
         return Response(status=status.HTTP_201_CREATED)
-
 
 class ConsolidatedQuestionsViewSet(viewsets.ModelViewSet):
     queryset = ConsolidatedQuestions.objects.all()
